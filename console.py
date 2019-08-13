@@ -42,9 +42,15 @@ class HBNBCommand(cmd.Cmd):
             if not line:
                 raise SyntaxError()
             my_list = line.split(" ")
-            obj = eval("{}()".format(my_list[0]))
+            second_arg = my_list[1].split("=")
+            if (second_arg[1][0:1] == '"' and second_arg[1][-1:] == '"'):
+                second_arg[1] = second_arg[1][1:-1]
+            print(second_arg)
+            '''            obj = eval("{}({})".format(my_list[0], my_list[1:]))
             obj.save()
-            print("{}".format(obj.id))
+            print("{}".format(obj.id))'''
+
+
         except SyntaxError:
             print("** class name missing **")
         except NameError:
