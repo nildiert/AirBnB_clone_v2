@@ -43,8 +43,18 @@ class HBNBCommand(cmd.Cmd):
                 raise SyntaxError()
             my_list = line.split(" ")
             obj = eval("{}()".format(my_list[0]))
+            for x in my_list:
+                sec_arg = x.split("=")
+                if len(sec_arg) is 2:
+                    if (sec_arg[1][0:1] == '"' and sec_arg[1][-1:] == '"'):
+                        sec_arg[1] = sec_arg[1].replace("_", " ")
+                    try:
+                        obj.__dict__[sec_arg[0]] = eval(sec_arg[1])
+                    except Exception:
+                        obj.__dict__[sec_arg[0]] = sec_arg[1]
             obj.save()
             print("{}".format(obj.id))
+
         except SyntaxError:
             print("** class name missing **")
         except NameError:
