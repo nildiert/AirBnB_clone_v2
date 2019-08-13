@@ -42,9 +42,14 @@ class HBNBCommand(cmd.Cmd):
             if not line:
                 raise SyntaxError()
             my_list = line.split(" ")
-            second_arg = my_list[1].split("=")
-            if (second_arg[1][0:1] == '"' and second_arg[1][-1:] == '"'):
-                second_arg[1] = second_arg[1][1:-1]
+            dict_val = {}
+            for x in my_list:
+                print("xxxx{}".format(x))
+                second_arg = x.split("=")
+                print("second {}".format(second_arg))
+                print(second_arg[0])
+#                if (second_arg[1][0:1] == '"' and second_arg[1][-1:] == '"'):
+#                    second_arg[1] = second_arg[1][1:-1]
             print(second_arg)
             '''            obj = eval("{}({})".format(my_list[0], my_list[1:]))
             obj.save()
