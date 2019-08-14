@@ -28,7 +28,7 @@ class FileStorage:
         new_dict = {}
         for key, values in FileStorage.__objects.items():
             if(key.split('.')[0] == cls.__name__):
-                new_dict[key] = values
+                new_dict.update({key: values})
         return new_dict
 
     def new(self, obj):
