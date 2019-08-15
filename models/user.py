@@ -3,6 +3,7 @@
 from models.base_model import BaseModel, Base
 from sqlalchemy import Integer, String, Column, ForeignKey
 
+
 class User(BaseModel, Base):
     """This is the class for user
     Attributes:
