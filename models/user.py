@@ -4,7 +4,6 @@ from models.base_model import BaseModel, Base
 from sqlalchemy import Integer, String, Column, ForeignKey
 from sqlalchemy.orm import relationship
 from models.place import Place
-from sqlalchemy.ext.declarative import declarative_base
 
 
 class User(BaseModel, Base):
@@ -22,3 +21,4 @@ class User(BaseModel, Base):
     first_name = Column(String(128), nullable=True)
     last_name = Column(String(128), nullable=True)
     places = relationship('Place', backref='user')
+    reviews = relationship('Review', backref='user')
