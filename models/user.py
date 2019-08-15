@@ -7,7 +7,6 @@ from models.place import Place
 from sqlalchemy.ext.declarative import declarative_base
 
 
-
 class User(BaseModel, Base):
     """This is the class for user
     Attributes:
@@ -23,4 +22,3 @@ class User(BaseModel, Base):
     first_name = Column(String(128), nullable=False)
     last_name = Column(String(128), nullable=False)
     places = relationship('Place', backref='user')
-
