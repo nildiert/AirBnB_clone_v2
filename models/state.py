@@ -6,6 +6,7 @@ import os
 from models.base_model import BaseModel, Base
 import models
 
+
 class State(BaseModel, Base):
     """This is the class for State
     Attributes:
@@ -19,5 +20,9 @@ class State(BaseModel, Base):
     else:
         @property
         def cities(self):
-            data = models.storage.all()
-            print(data)
+            obj_list = []
+            data = models.storage.all(City)
+            for key, value in data.items():
+                if value.state_id == self.id:
+                    obj_list.appen(value)
+            return obj_list
