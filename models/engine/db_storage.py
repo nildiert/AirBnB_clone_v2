@@ -45,28 +45,25 @@ class DBStorage:
         """
         my_dict = {}
 
-        try:
-            if cls is not None:
-                data = self.__session.query(cls).all()
-                for x in data:
-                    key = (str(type(x).__name__ + '.' + x.id))
-                    del x._sa_instance_state
-                    value = x
-                    my_dict[key] = value
-            else:
-                '''classes = [BaseModel, User, State,
-                City, Amenity, Place, Review]'''
-                classes = [State, City]
-                for clas in classes:
-                    data = self.__session.query(clas).all()
-                    if data is not None:
-                        for x in data:
-                            key = (str(type(x).__name__ + '.' + x.id))
-                            del x._sa_instance_state
-                            value = x
-                            my_dict[key] = value
-        except Exception as err:
-            print("** error: {} **".format(err))
+        if cls is not None:
+            data = self.__session.query(cls).all()
+            for x in data:
+                key = (str(type(x).__name__ + '.' + x.id))
+                del x._sa_instance_state
+                value = x
+                my_dict[key] = value
+        else:
+            '''classes = [BaseModel, User, State,
+            City, Amenity, Place, Review]'''
+            classes = [State, City]
+            for clas in classes:
+                data = self.__session.query(clas).all()
+                if data is not None:
+                    for x in data:
+                        key = (str(type(x).__name__ + '.' + x.id))
+                        del x._sa_instance_state
+                        value = x
+                        my_dict[key] = value
 
         return my_dict
 
@@ -75,10 +72,7 @@ class DBStorage:
             self.__session.add(obj)
 
     def save(self):
-        try:        
-            self.__session.commit()
-        except Exception as err:
-            print("Error {}".format(err))
+        self.__session.commit()
 
     def delete(self, obj=None):
         if obj is not None:
