@@ -50,7 +50,7 @@ class DBStorage:
         else:
             '''classes = [BaseModel, User, State,
             City, Amenity, Place, Review]'''
-            classes = [State, City, User, Place]
+            classes = [State, City, User, Place, Review]
             for clas in classes:
                 data = self.__session.query(clas).all()
                 if data is not None:
