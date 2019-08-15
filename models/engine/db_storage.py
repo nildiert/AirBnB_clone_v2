@@ -2,12 +2,9 @@
 """This is the DB storage class for AirBnB"""
 
 from models.base_model import BaseModel, Base
-from sqlalchemy.orm import scoped_session
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, scoped_session
 import os
 from sqlalchemy import *
-
-import json
 from models.user import User
 from models.state import State
 from models.city import City
@@ -36,48 +33,34 @@ class DBStorage:
             os.environ.get('HBNB_MYSQL_DB'),
             pool_pre_ping=True)
         )
-
-
+        self.reload()
         if os.environ.get('HBNB_ENV') == 'test':
-            Base.metadata.drop_all(tables)
+            Base.metadata.drop_all(bind=self.__engine)
 
     def all(self, cls=None):
         """ query in the curent DB session dependng of the  clss name
         """
-        data = self.__session.query(State).all()
-        keys = []
         my_dict = {}
-        for x in data:
-            key = (str(type(x).__name__ + '.' + x.id))
-            value = x
-            my_dict[key] = value
-            #setattr(my_dict, key, value)
-        '''if cls is not None:
-            new_dict = {}
-            for key, values in FileStorage.__objects.items():
-                if(cls.__name__ in key):
-                    new_dict.update({key: values})
-            return new_dict
-        else:
-            return self.__objects'''
 
         if cls is not None:
-            '''data =self.__session.query(cls).all()'''
-            print("Recibi class {}".format(cls))
+            data = self.__session.query(cls).all()
+            for x in data:
+                key = (type(x).__name__ + '.' + x.id)
+                my_dict[key] = x
         else:
-            print("No recibi cls {}".format(cls))
-            #classes = [BaseModel, User, State, City, Amenity, Place, Review]
-            #for i in classes:
-            '''data = self.__session.query(State).all()'''
-            '''return data'''
-        #print(my_dict)
+            '''classes = [BaseModel, User, State,
+            City, Amenity, Place, Review]'''
+            classes = [State, City, User, Place]
+            for clas in classes:
+                data = self.__session.query(clas).all()
+                if data is not None:
+                    for x in data:
+                        key = (type(x).__name__ + '.' + x.id)
+                        my_dict[key] = x
         return my_dict
 
-    #all_classes = {"BaseModel", "User", "State", "City","Amenity", "Place", "Review"}
-
     def new(self, obj):
-        if obj is not None:
-            self.__session.add(obj)
+        self.__session.add(obj)
 
     def save(self):
         self.__session.commit()
