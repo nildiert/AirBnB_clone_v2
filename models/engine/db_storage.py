@@ -2,8 +2,7 @@
 """This is the DB storage class for AirBnB"""
 
 from models.base_model import BaseModel, Base
-from sqlalchemy.orm import scoped_session
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, scoped_session
 import os
 from sqlalchemy import *
 from models.user import User
@@ -51,7 +50,7 @@ class DBStorage:
         else:
             '''classes = [BaseModel, User, State,
             City, Amenity, Place, Review]'''
-            classes = [State, City]
+            classes = [State, City, User, Place]
             for clas in classes:
                 data = self.__session.query(clas).all()
                 if data is not None:
