@@ -21,7 +21,7 @@ class State(BaseModel, Base):
         @property
         def cities(self):
             obj_list = []
-            data = models.storage.all(City)
+            data = models.storage.all(models.City)
             for key, value in data.items():
                 if value.state_id == self.id:
                     obj_list.appen(value)
