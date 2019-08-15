@@ -49,7 +49,7 @@ class DBStorage:
             data = self.__session.query(cls).all()
             for x in data:
                 key = (str(type(x).__name__ + '.' + x.id))
-                del x._sa_instance_state
+                '''del x._sa_instance_state'''
                 value = x
                 my_dict[key] = value
         else:
@@ -61,7 +61,7 @@ class DBStorage:
                 if data is not None:
                     for x in data:
                         key = (str(type(x).__name__ + '.' + x.id))
-                        del x._sa_instance_state
+                        '''del x._sa_instance_state'''
                         value = x
                         my_dict[key] = value
 
