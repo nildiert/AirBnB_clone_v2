@@ -6,8 +6,6 @@ from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import sessionmaker
 import os
 from sqlalchemy import *
-
-import json
 from models.user import User
 from models.state import State
 from models.city import City
@@ -36,7 +34,7 @@ class DBStorage:
             os.environ.get('HBNB_MYSQL_DB'),
             pool_pre_ping=True)
         )
-
+        self.reload()
         if os.environ.get('HBNB_ENV') == 'test':
             Base.metadata.drop_all(bind=self.__engine)
 
@@ -48,10 +46,8 @@ class DBStorage:
         if cls is not None:
             data = self.__session.query(cls).all()
             for x in data:
-                key = (str(type(x).__name__ + '.' + x.id))
-                '''del x._sa_instance_state'''
-                value = x
-                my_dict[key] = value
+                key = (type(x).__name__ + '.' + x.id)
+                my_dict[key] = x
         else:
             '''classes = [BaseModel, User, State,
             City, Amenity, Place, Review]'''
@@ -60,16 +56,12 @@ class DBStorage:
                 data = self.__session.query(clas).all()
                 if data is not None:
                     for x in data:
-                        key = (str(type(x).__name__ + '.' + x.id))
-                        '''del x._sa_instance_state'''
-                        value = x
-                        my_dict[key] = value
-
+                        key = (type(x).__name__ + '.' + x.id)
+                        my_dict[key] = x
         return my_dict
 
     def new(self, obj):
-        if obj is not None:
-            self.__session.add(obj)
+        self.__session.add(obj)
 
     def save(self):
         self.__session.commit()
