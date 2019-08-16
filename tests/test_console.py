@@ -17,10 +17,13 @@ from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
 from models.engine.file_storage import FileStorage
+import sys
+
 
 
 class TestConsole(unittest.TestCase):
     """this will test the console"""
+
 
     @classmethod
     def setUpClass(cls):
@@ -30,7 +33,7 @@ class TestConsole(unittest.TestCase):
     @classmethod
     def teardown(cls):
         """at the end of the test this will tear it down"""
-        del cls.consol
+        del cls.console
 
     def tearDown(self):
         """Remove temporary file (file.json) created as a result"""
@@ -72,6 +75,7 @@ class TestConsole(unittest.TestCase):
             self.consol.onecmd("quit")
             self.assertEqual('', f.getvalue())
 
+
     def test_create(self):
         """Test create command inpout"""
         with patch('sys.stdout', new=StringIO()) as f:
@@ -88,6 +92,7 @@ class TestConsole(unittest.TestCase):
             self.consol.onecmd("all User")
             self.assertEqual(
                 "[[User]", f.getvalue()[:7])
+
 
     def test_show(self):
         """Test show command inpout"""
@@ -166,6 +171,7 @@ class TestConsole(unittest.TestCase):
             self.consol.onecmd("update User " + my_id + " Name")
             self.assertEqual(
                 "** value missing **\n", f.getvalue())
+
 
     def test_z_all(self):
         """Test alternate all command inpout"""
