@@ -5,6 +5,16 @@ from sqlalchemy import Integer, Float, String, Column, ForeignKey
 from sqlalchemy.orm import relationship
 import os
 import models
+from sqlalchemy import Table
+
+
+place_amenity = Table('place_amenity', Base.metadata,
+                      Column('Place_id', String(60),
+                             ForeignKey('places.id'), primary_key=True,
+                             nullable=False),
+                      Column('amenity_id', String(60),
+                             ForeignKey('amenities.id'), primary_key=True,
+                             nullable=False))
 
 
 class Place(BaseModel, Base):
@@ -38,9 +48,12 @@ class Place(BaseModel, Base):
 
     if os.environ.get('HBNB_TYPE_STORAGE') == 'db':
         reviews = relationship('Review', backref='place')
+        amenities = relationship('Amenity', secondary=place_amenity,
+                                 viewonly=False)
     else:
         @property
         def reviews(self):
+            ''' getter review '''
             obj_list = []
             data = models.storage.all(models.Review)
             for key, value in data.items():
@@ -48,3 +61,7 @@ class Place(BaseModel, Base):
                     obj_list.append(value)
 
             return obj_list
+
+        @property
+        def amenities(self):
+            ''' amenities getter '''
