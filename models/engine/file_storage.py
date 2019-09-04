@@ -69,3 +69,7 @@ class FileStorage:
         if obj is not None:
             key = (type(obj).__name__) + '.' + obj.__dict__['id']
             del self.__objects[key]
+
+    def close(self):
+        """ Close and call the reload method """
+        self.reload()
